@@ -1,0 +1,180 @@
+### Data Cleaning Prompts and Results
+
+**Context:** Imagine you're working with a dataset from an e-commerce platform, customer database, or product catalog.
+
+---
+
+**1. Prompt: Handle Missing Values in 'CustomerEmail'**
+*   **Prompt:** "Identify all missing values (NaN, null, empty strings) in the 'CustomerEmail' column. For any row with a missing email, remove the entire row, as email is a critical field for communication."
+*   **Result:**
+    *   **Before:** 'CustomerEmail' had 150 rows with missing values out of 10,000.
+    *   **After:** 150 rows were removed. The dataset now contains 9,850 rows, and 'CustomerEmail' has no missing values.
+
+---
+
+**2. Prompt: Remove Exact Duplicate Rows**
+*   **Prompt:** "The dataset might contain exact duplicate entries for entire rows. Remove all such exact duplicates, keeping only the first occurrence."
+*   **Result:**
+    *   **Before:** The dataset contained 250 exact duplicate rows.
+    *   **After:** 250 duplicate rows were removed. The dataset now has unique rows based on all column values.
+
+---
+
+**3. Prompt: Clean Leading/Trailing Whitespace**
+*   **Prompt:** "Some text fields like 'ProductName' and 'CustomerName' might have leading or trailing whitespace. Strip all such whitespace from these columns."
+*   **Result:**
+    *   **Before (Example):** ' Product A ', ' John Doe '
+    *   **After (Example):** 'Product A', 'John Doe'
+    *   **Impact:** Ensures consistent string comparisons and searches.
+
+---
+
+**4. Prompt: Standardize Case for Categorical Data**
+*   **Prompt:** "The 'ProductCategory' column has inconsistent casing (e.g., 'Electronics', 'electronics', 'ELECTRONICS'). Standardize all entries to 'Title Case'."
+*   **Result:**
+    *   **Before (Example):** 'electronics', 'ELECTRONICS', 'Home & Kitchen'
+    *   **After (Example):** 'Electronics', 'Electronics', 'Home & Kitchen'
+    *   **Impact:** Reduced the number of unique categories from 50 to 35, making aggregation and filtering more reliable.
+
+---
+
+**5. Prompt: Convert 'OrderDate' to Datetime Object**
+*   **Prompt:** "The 'OrderDate' column is currently stored as a string ('YYYY-MM-DD' but also 'DD/MM/YYYY'). Convert it to a proper datetime object and flag any unparseable entries."
+*   **Result:**
+    *   **Before (Example):** '2023-10-26', '01/01/2023', 'October 26, 2023'
+    *   **After (Example):** `2023-10-26 00:00:00`, `2023-01-01 00:00:00`, `2023-10-26 00:00:00`
+    *   **Impact:** 5 entries that couldn't be parsed were flagged as 'Invalid Date'. The rest are now ready for time-series analysis.
+
+---
+
+**6. Prompt: Clean Numeric Column with Currency Symbols**
+*   **Prompt:** "The 'Price' column contains currency symbols (e.g., '$19.99', '€25.00') and is stored as a string. Remove the symbols and convert the column to a numeric (float) type."
+*   **Result:**
+    *   **Before (Example):** '$19.99', '€25.00', '10.50'
+    *   **After (Example):** `19.99`, `25.00`, `10.50`
+    *   **Impact:** The column is now correctly typed as float, allowing for mathematical operations.
+
+---
+
+**7. Prompt: Standardize Country Names**
+*   **Prompt:** "The 'ShippingCountry' column has variations like 'USA', 'U.S.A.', 'United States'. Standardize all these to 'United States'."
+*   **Result:**
+    *   **Before (Example):** 'USA', 'U.S.A.', 'United States', 'Canada'
+    *   **After (Example):** 'United States', 'United States', 'United States', 'Canada'
+    *   **Impact:** Consolidated unique country entries, making geographical analysis more accurate.
+
+---
+
+**8. Prompt: Identify and Flag Outliers in 'Quantity'**
+*   **Prompt:** "In the 'QuantitySold' column, identify and flag orders where the quantity is unusually high (e.g., greater than 500) as potential data entry errors or bulk orders requiring review."
+*   **Result:**
+    *   **Before:** Max 'QuantitySold' was 2500.
+    *   **After:** A new column 'IsQuantityOutlier' was created. 120 rows (1.2% of the data) were flagged as `True` for 'QuantitySold' > 500.
+
+---
+
+**9. Prompt: Split 'FullAddress' into Components**
+*   **Prompt:** "The 'CustomerAddress' column contains the full address as a single string. Attempt to split it into 'StreetAddress', 'City', and 'ZipCode' where possible, using common delimiters."
+*   **Result:**
+    *   **Before (Example):** '123 Main St, Anytown, 98765'
+    *   **After (Example):**
+        *   `StreetAddress`: '123 Main St'
+        *   `City`: 'Anytown'
+        *   `ZipCode`: '98765'
+    *   **Impact:** New columns created. Successfully parsed ~80% of addresses. Unparsed addresses remain in original column with nulls in new columns.
+
+---
+
+**10. Prompt: Remove Non-AlphaNumeric Characters from 'ProductSKU'**
+*   **Prompt:** "The 'ProductSKU' column sometimes contains special characters (e.g., '#P123', 'SKU-001'). Remove all non-alphanumeric characters to keep only letters and numbers."
+*   **Result:**
+    *   **Before (Example):** '#P123', 'SKU-001', 'ITEM@XYZ'
+    *   **After (Example):** 'P123', 'SKU001', 'ITEMXYZ'
+    *   **Impact:** Standardized SKUs, enabling easier lookup and joining with other datasets.
+
+---
+
+**11. Prompt: Handle Inconsistent Units in 'Weight' Column**
+*   **Prompt:** "The 'ProductWeight' column contains values in both 'kg' and 'lbs'. Convert all 'lbs' values to 'kg' (1 lb = 0.453592 kg) and ensure the unit indicator is removed."
+*   **Result:**
+    *   **Before (Example):** '10 kg', '5 lbs', '20kg'
+    *   **After (Example):** `10.0`, `2.26796`, `20.0` (all numeric, in kg)
+    *   **Impact:** The 'ProductWeight' column is now uniformly numeric and in kilograms, allowing for direct comparisons and calculations.
+
+---
+
+**12. Prompt: Fill Missing 'CustomerSegment' with Mode**
+*   **Prompt:** "The 'CustomerSegment' column has some missing values. Fill these missing entries with the most frequent (mode) customer segment to maintain data integrity for analysis."
+*   **Result:**
+    *   **Before:** 'CustomerSegment' had 500 missing values. The mode was 'Retail'.
+    *   **After:** All 500 missing values were filled with 'Retail'.
+
+---
+
+**13. Prompt: Validate 'PhoneNumber' Format**
+*   **Prompt:** "Validate 'CustomerPhoneNumber' entries to ensure they roughly match a standard 10-digit format (allowing for optional country codes or dashes). Flag invalid numbers."
+*   **Result:**
+    *   **Before (Example):** '123-456-7890', '555-ABCD', '9876543210'
+    *   **After (Example):** '123-456-7890' (Valid), '555-ABCD' (Flagged as invalid), '9876543210' (Valid)
+    *   **Impact:** 85 invalid phone numbers (out of 10,000) were identified and a 'IsValidPhone' column was added.
+
+---
+
+**14. Prompt: Remove HTML Tags from 'ProductDescription'**
+*   **Prompt:** "The 'ProductDescription' field sometimes contains residual HTML tags. Remove all HTML tags to present clean text."
+*   **Result:**
+    *   **Before (Example):** 'This product is <b>amazing</b> and <a href="#">durable</a>.'
+    *   **After (Example):** 'This product is amazing and durable.'
+    *   **Impact:** Descriptions are now plain text, improving readability and consistency for text analysis.
+
+---
+
+**15. Prompt: Consolidate Near-Duplicate Customer Names**
+*   **Prompt:** "Identify and consolidate near-duplicate 'CustomerName' entries (e.g., 'John Smith' and 'Jon Smith' or 'J. Smith') by fuzzy matching and assigning a canonical name. Assume a threshold of 85% similarity."
+*   **Result:**
+    *   **Before:** 15 unique names like 'John Smith', 'Jon Smith', 'Jonathan Smith'.
+    *   **After:** Consolidated into 1 canonical name 'John Smith' for these variations. A total of 35 sets of near-duplicates were identified and updated.
+    *   **Impact:** Improved accuracy for customer-centric analysis by linking records of the same individual.
+
+---
+
+**16. Prompt: Correcting Inconsistent Boolean Representation**
+*   **Prompt:** "The 'IsActive' column uses 'True', 'False', '1', '0', 'Yes', 'No' inconsistently. Convert all to standard boolean `True`/`False` values."
+*   **Result:**
+    *   **Before (Example):** 'True', '0', 'Yes', 'False', '1', 'No'
+    *   **After (Example):** `True`, `False`, `True`, `False`, `True`, `False`
+    *   **Impact:** The column is now a consistent boolean type, enabling direct filtering and logical operations.
+
+---
+
+**17. Prompt: Remove 'Unnamed' Columns from Imports**
+*   **Prompt:** "After importing, some datasets contain 'Unnamed: 0' or similar columns that are usually residual indices. Remove any column that starts with 'Unnamed:'."
+*   **Result:**
+    *   **Before:** The dataset had 2 columns: 'Unnamed: 0' and 'Unnamed: 1'.
+    *   **After:** These 2 columns were dropped. The dataset now has its intended columns without extraneous index columns.
+
+---
+
+**18. Prompt: Standardize Date Formats in 'InvoiceDate'**
+*   **Prompt:** "The 'InvoiceDate' column has mixed formats (e.g., 'MM-DD-YYYY', 'YYYY/MM/DD'). Standardize all to 'YYYY-MM-DD' string format after converting to datetime, then back to string."
+*   **Result:**
+    *   **Before (Example):** '10-26-2023', '2023/01/15'
+    *   **After (Example):** '2023-10-26', '2023-01-15'
+    *   **Impact:** All date entries in this column are now consistently formatted strings, useful for reporting or systems that expect specific string formats.
+
+---
+
+**19. Prompt: Fill Missing 'Rating' with Median Value**
+*   **Prompt:** "The 'ProductRating' column contains some missing values. Fill these missing entries with the median rating to avoid bias from mean and maintain ordinal integrity."
+*   **Result:**
+    *   **Before:** 'ProductRating' had 70 missing values. The median rating was 4.0.
+    *   **After:** All 70 missing values were filled with 4.0.
+
+---
+
+**20. Prompt: Remove Rows with Critical Identifier Missing**
+*   **Prompt:** "The 'OrderID' column is a unique identifier. Any row missing an 'OrderID' is invalid and should be removed from the dataset."
+*   **Result:**
+    *   **Before:** 'OrderID' had 5 missing values.
+    *   **After:** 5 rows were removed from the dataset. All remaining rows have a valid 'OrderID'.
+    *   **Impact:** Ensures data integrity for critical relational operations and prevents issues if 'OrderID' is a primary key.
