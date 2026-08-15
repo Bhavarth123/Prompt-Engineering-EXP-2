@@ -1,0 +1,90 @@
+prompt -"give me 20 data cleaning prompts and results.",
+
+Result : 
+Here are 20 data cleaning prompts along with the common problem they address and the desired result:
+
+---
+
+### Data Cleaning Prompts & Results
+
+**1. Prompt: Handle Missing Values in 'Price' Column**
+*   **Problem:** The 'Price' column contains `NaN` (Not a Number) values, which could represent missing data points or errors.
+*   **Result:** Missing `NaN` values are imputed with the median price (robust to outliers) or removed if the percentage of missing data is very low and doesn't introduce bias. This allows for accurate numerical calculations.
+
+**2. Prompt: Standardize Case for 'Country' Column**
+*   **Problem:** The 'Country' column has inconsistent casing (e.g., "USA", "usa", "USa", "United States").
+*   **Result:** All entries in the 'Country' column are converted to a consistent format, such as title case ("United States") or uppercase ("USA"), enabling accurate grouping and filtering.
+
+**3. Prompt: Remove Duplicate Rows**
+*   **Problem:** The dataset contains exact duplicate rows, leading to inflated counts or inaccurate statistics.
+*   **Result:** All identical duplicate rows are removed, retaining only the first occurrence, ensuring each record is unique.
+
+**4. Prompt: Convert 'Order_Date' to Datetime Object**
+*   **Problem:** The 'Order_Date' column is currently stored as a string or object type, with inconsistent formats (e.g., "2023-01-15", "1/15/23").
+*   **Result:** 'Order_Date' is converted to a standard datetime format (e.g., `YYYY-MM-DD`), allowing for date-based operations like filtering by month or calculating durations.
+
+**5. Prompt: Clean 'Product_Name' by Removing Special Characters**
+*   **Problem:** The 'Product_Name' column contains unwanted special characters (e.g., "Laptop!", "Monitor@").
+*   **Result:** Special characters are removed from 'Product_Name', leaving only alphanumeric characters and common separators (like hyphens or spaces), improving readability and consistency.
+
+**6. Prompt: Handle Outliers in 'Sales_Revenue'**
+*   **Problem:** The 'Sales_Revenue' column contains extreme outlier values that could skew statistical analysis.
+*   **Result:** Outliers are either capped at a reasonable percentile (e.g., 99th percentile), transformed (e.g., log transformation), or flagged for further investigation, preventing undue influence on model training.
+
+**7. Prompt: Standardize Units in 'Weight_kg' Column**
+*   **Problem:** The 'Weight_kg' column contains values that might be in different units (e.g., some in grams, some in pounds, but labeled 'kg').
+*   **Result:** All weight values are converted to a single, consistent unit (kilograms), ensuring comparability and accurate calculations.
+
+**8. Prompt: Trim Whitespace from Text Columns**
+*   **Problem:** Text columns (e.g., 'City', 'Product_Category') have leading or trailing whitespace (e.g., " New York ", "Electronics ").
+*   **Result:** All leading and trailing whitespace is removed from text entries, preventing mismatches during comparisons or grouping.
+
+**9. Prompt: Correct Inconsistent Spellings in 'Region' Column**
+*   **Problem:** The 'Region' column has variations in spelling for the same region (e.g., "North", "Noth", "Northern").
+*   **Result:** Inconsistent spellings are mapped to a single, correct standard (e.g., "North"), consolidating categories for accurate analysis.
+
+**10. Prompt: Convert 'Is_Active' Column to Boolean Type**
+*   **Problem:** The 'Is_Active' column is stored as strings ("True", "False", "1", "0") instead of actual boolean values.
+*   **Result:** 'Is_Active' is converted to a boolean data type (`True`/`False`), enabling direct logical operations and efficient storage.
+
+**11. Prompt: Split 'Full_Address' into 'Street', 'City', 'State', 'Zip_Code'**
+*   **Problem:** The 'Full_Address' column contains multiple pieces of information in a single string.
+*   **Result:** 'Full_Address' is parsed and split into separate, granular columns ('Street', 'City', 'State', 'Zip_Code'), making individual components accessible for analysis or database integration.
+
+**12. Prompt: Remove Irrelevant Columns**
+*   **Problem:** The dataset contains columns that are not relevant to the current analysis (e.g., 'Internal_ID', 'Entry_Timestamp', 'Notes').
+*   **Result:** Unnecessary columns are dropped from the dataset, reducing memory footprint, improving query performance, and simplifying the data model.
+
+**13. Prompt: Consolidate 'N/A' and Empty Strings to NaN**
+*   **Problem:** Missing values are represented inconsistently as `NaN`, "N/A", or empty strings (`""`).
+*   **Result:** All representations of missingness are standardized to `NaN`, allowing for consistent handling of missing data across the dataset.
+
+**14. Prompt: Validate and Correct 'Age' to be Within a Valid Range**
+*   **Problem:** The 'Age' column contains unrealistic values (e.g., -5, 150).
+*   **Result:** Invalid 'Age' values are either replaced with `NaN` (and then imputed), set to a boundary value (e.g., 0 for age), or flagged for manual review, ensuring data integrity.
+
+**15. Prompt: Fill Missing 'Customer_Segment' with 'Unknown'**
+*   **Problem:** The 'Customer_Segment' column has missing values that cannot be easily imputed numerically.
+*   **Result:** Missing values in 'Customer_Segment' are filled with a descriptive placeholder like "Unknown" or "Other", maintaining all records and indicating the absence of this specific information.
+
+**16. Prompt: Combine 'First_Name' and 'Last_Name' into 'Full_Name'**
+*   **Problem:** Customer names are stored in separate 'First_Name' and 'Last_Name' columns, but a combined 'Full_Name' is needed.
+*   **Result:** 'First_Name' and 'Last_Name' are concatenated into a new 'Full_Name' column, facilitating easier display or search functions.
+
+**17. Prompt: Remove Currency Symbols from 'Amount' Column**
+*   **Problem:** The 'Amount' column contains currency symbols (e.g., "$123.45", "€50.00"), preventing direct numerical operations.
+*   **Result:** Currency symbols are removed, and the 'Amount' column is converted to a numeric (float) data type, allowing for calculations.
+
+**18. Prompt: Correct 'Email' Column for Invalid Formats**
+*   **Problem:** The 'Email' column contains entries that are not valid email addresses (e.g., "john.doe", "invalid@").
+*   **Result:** Invalid email formats are either removed, flagged, or set to `NaN`, ensuring data quality for communication or validation purposes.
+
+**19. Prompt: Ensure 'Rating' Column is Within a Specific Range (1-5)**
+*   **Problem:** The 'Rating' column contains values outside the expected 1-5 range (e.g., 0, 6, 10).
+*   **Result:** 'Rating' values outside the specified range are either corrected to the nearest valid boundary (e.g., 0 to 1, 6 to 5), or set to `NaN`, ensuring data consistency for metrics.
+
+**20. Prompt: Standardize 'Product_ID' Format**
+*   **Problem:** The 'Product_ID' column has inconsistent formats (e.g., "PROD-123", "P_123", "prod123").
+*   **Result:** 'Product_ID' values are standardized to a single, consistent format (e.g., "PROD-123"), enabling reliable merging and lookup operations.
+
+---
